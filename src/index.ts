@@ -6,7 +6,7 @@ import {
   generateUUID,
   generateNewObj,
 } from './utils/index'
-import { findEle, createInputDiv, layout, Topic, createChildren, createGroup, createTop, createTopic } from './utils/dom'
+import { findEle, createInputDiv, layout, Topic, createChildren, createGroup, createTop, createTopic, shapeTpc } from './utils/dom'
 import { createLinkSvg, createLine } from './utils/svg'
 import {
   selectNode,
@@ -391,6 +391,7 @@ MindElixir.prototype = {
   createInputDiv,
 
   createChildren, createGroup, createTop, createTopic,
+  shapeTpc,
 
   selectNode,
   unselectNode,

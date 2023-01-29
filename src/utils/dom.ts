@@ -93,7 +93,7 @@ export const createGroup = function(nodeObj: NodeObj, omitChildren?: boolean) {
 export const createTop = function(nodeObj: NodeObj): Top {
   const top = $d.createElement('t')
   const tpc = this.createTopic(nodeObj)
-  shapeTpc(tpc, nodeObj)
+  this.shapeTpc(tpc, nodeObj)
   top.appendChild(tpc)
   return top
 }
@@ -231,7 +231,7 @@ export function layout() {
   this.root.innerHTML = ''
   this.box.innerHTML = ''
   const tpc = this.createTopic(this.nodeData)
-  shapeTpc(tpc, this.nodeData) // shape root tpc
+  this.shapeTpc(tpc, this.nodeData) // shape root tpc
   tpc.draggable = false
   this.root.appendChild(tpc)
 
