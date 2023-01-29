@@ -96,7 +96,11 @@ export interface NodeObj {
     fontSize?: string,
     color?: string,
     background?: string,
-    fontWeight?: string
+    fontWeight?: string,
+    border?: string,
+    borderWidth?: string,
+    borderStyle?: string,
+    borderColor?: string
   },
   parent?: NodeObj,
   children?: NodeObj[],

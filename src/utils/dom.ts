@@ -29,6 +29,13 @@ export const shapeTpc = function(tpc: Topic, nodeObj: NodeObj) {
     tpc.style.background = nodeObj.style.background || 'inherit'
     tpc.style.fontSize = nodeObj.style.fontSize + 'px'
     tpc.style.fontWeight = nodeObj.style.fontWeight || 'normal'
+    tpc.style.border = nodeObj.style.border || '1px solid black' // border 단축 속성을 사용한 경우
+    if (!nodeObj.style.border) {
+      // border 단축 속성을 사용하지 않는 경우 하나씩만 설정 가능
+      tpc.style.borderWidth = nodeObj.style.borderWidth || '1px'
+      tpc.style.borderStyle = nodeObj.style.borderStyle || 'solid'
+      tpc.style.borderColor = nodeObj.style.borderColor || 'black'
+    } 
   }
 
   // TODO allow to add online image
