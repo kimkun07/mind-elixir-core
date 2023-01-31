@@ -100,16 +100,16 @@ export interface StyleObj {
   borderColor?: string
 }
 export interface NodeObj {
-  topic: string,
-  id: string,
-  style?: StyleObj,
-  parent?: NodeObj,
-  children?: NodeObj[],
-  tags?: string[],
-  icons?: string[],
-  hyperLink?: string,
-  expanded?: boolean,
-  direction?: number,
+  topic: string
+  id: string
+  style?: StyleObj
+  parent?: NodeObj
+  children?: NodeObj[]
+  tags?: string[]
+  icons?: string[] // -> <span>${encodeHTML(icon)}</span>
+  hyperLink?: string
+  expanded?: boolean
+  direction?: number
   root?: boolean
 }
 

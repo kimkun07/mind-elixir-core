@@ -3,6 +3,13 @@ const mindmap_options = {
   el: '#map',
   newTopicName: 'new topic',
   direction: MindElixir.SIDE,
+  defaultStyle: {
+    color: 'black', // default: 'inherit'
+    background: 'inherit', // default: 'inherit',
+    fontSize: '20', // default: '15'
+    fontWeight: 'normal', // default: 'normal'
+    border: 'none', // default: 'none'
+  },
   locale: 'en',
   draggable: true, // default: true
   editable: true, // default: true
@@ -45,7 +52,6 @@ const mindmap_options = {
 }
 
 // index.ts - NodeObj 참고
-// icons: string[] -> <span>${encodeHTML(icon)}</span>
 const nodeData_sample = {
   topic: 'Mind Elixir',
   id: 'root',

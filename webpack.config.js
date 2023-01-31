@@ -44,6 +44,38 @@ let config = {
 }
 
 module.exports = (env, argv) => {
+  if (env.myMode === 'web') {
+    config = {
+      ...config,
+      entry: {
+        MindElixir: './src/index.ts',
+      },
+      output: {
+        path: path.resolve(__dirname, 'public'),
+        filename: '[name].js',
+        library: '[name]',
+        libraryTarget: 'umd',
+        libraryExport: 'default',
+      },
+      // plugins: [
+      //   new BundleAnalyzerPlugin()
+      // ],
+      optimization: {
+        minimize: true,
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              compress: {
+                drop_console: true,
+              },
+            },
+          }),
+        ],
+      },
+    }
+    return config
+  }
+  
   if (argv.mode === 'development') {
     console.log('development', env)
     config = {
