@@ -6,7 +6,7 @@ import {
   generateUUID,
   generateNewObj,
 } from './utils/index'
-import { findEle, createInputDiv, layout, Topic, createChildren, createGroup, createTop, createTopic } from './utils/dom'
+import { findEle, createInputDiv, layout, Topic, createChildren, createGroup, createTop, createTopic, shapeTpc } from './utils/dom'
 import { createLinkSvg, createLine } from './utils/svg'
 import {
   selectNode,
@@ -89,15 +89,20 @@ type LinkObj = object
 type operation = {
   name: string
 }
+export interface StyleObj {
+  color?: string
+  background?: string
+  fontSize?: string
+  fontWeight?: string
+  border?: string
+  borderWidth?: string
+  borderStyle?: string
+  borderColor?: string
+}
 export interface NodeObj {
   topic: string,
   id: string,
-  style?: {
-    fontSize?: string,
-    color?: string,
-    background?: string,
-    fontWeight?: string
-  },
+  style?: StyleObj,
   parent?: NodeObj,
   children?: NodeObj[],
   tags?: string[],
@@ -161,6 +166,7 @@ export interface MindElixirInstance {
   line1:SVGElement,
   line2:SVGElement,
   linkSvgGroup:SVGElement,
+  defaultStyle: StyleObj,
 }
 export interface Options {
   el: string | Element,
@@ -182,6 +188,7 @@ export interface Options {
   primaryNodeHorizontalGap?: number,
   primaryNodeVerticalGap?: number,
   mobileMenu?: boolean,
+  defaultStyle?: StyleObj
 }
 const $d = document
 /**
@@ -220,6 +227,7 @@ function MindElixir(this: MindElixirInstance, {
   primaryNodeHorizontalGap,
   primaryNodeVerticalGap,
   mobileMenu,
+  defaultStyle
 }: Options) {
   console.log('ME_version ' + MindElixir.version, this)
   let box
@@ -246,6 +254,13 @@ function MindElixir(this: MindElixirInstance, {
   this.newTopicName = newTopicName
   this.editable = editable === undefined ? true : editable
   this.allowUndo = allowUndo === undefined ? true : allowUndo
+  this.defaultStyle = {
+    color: defaultStyle?.color || 'inherit',
+    background: defaultStyle?.background || 'inherit',
+    fontSize: defaultStyle?.fontSize || '15',
+    fontWeight: defaultStyle?.fontWeight || 'normal',
+    border: defaultStyle?.border || 'none',
+  }
   // this.parentMap = {} // deal with large amount of nodes
   this.currentNode = null // the selected <tpc/> element
   this.currentLink = null // the selected link svg element
@@ -387,6 +402,7 @@ MindElixir.prototype = {
   createInputDiv,
 
   createChildren, createGroup, createTop, createTopic,
+  shapeTpc,
 
   selectNode,
   unselectNode,

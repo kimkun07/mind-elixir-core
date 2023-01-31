@@ -14,7 +14,7 @@ import {
   moveNodeAfterObj,
   refreshIds,
 } from './utils/index'
-import { findEle, createExpander, shapeTpc } from './utils/dom'
+import { findEle, createExpander } from './utils/dom'
 import { rgbHex } from './utils/index'
 import { LEFT, RIGHT, SIDE } from './const'
 const $d = document
@@ -48,7 +48,7 @@ export const updateNodeTags = function(object, tags) {
   const oldVal = object.tags
   object.tags = tags
   const nodeEle = findEle(object.id)
-  shapeTpc(nodeEle, object)
+  this.shapeTpc(nodeEle, object)
   this.linkDiv()
   this.bus.fire('operation', {
     name: 'editTags',
@@ -61,7 +61,7 @@ export const updateNodeIcons = function(object, icons) {
   const oldVal = object.icons
   object.icons = icons
   const nodeEle = findEle(object.id)
-  shapeTpc(nodeEle, object)
+  this.shapeTpc(nodeEle, object)
   this.linkDiv()
   this.bus.fire('operation', {
     name: 'editIcons',
@@ -74,7 +74,7 @@ export const updateNodeHyperLink = function(object, hyperLink) {
   const oldVal = object.hyperLink
   object.hyperLink = hyperLink
   const nodeEle = findEle(object.id)
-  shapeTpc(nodeEle, object)
+  this.shapeTpc(nodeEle, object)
   this.linkDiv()
   this.bus.fire('operation', {
     name: 'editHyperLink',

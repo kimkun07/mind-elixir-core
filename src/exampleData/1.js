@@ -1,12 +1,24 @@
 export default {
   nodeData: {
     id: 'root',
-    topic: 'Mind Elixir',
+    topic: 'My Mind Elixir',
     root: true,
+    style: {
+      color: '#3298db',
+      background: '#ecf0f1',
+      fontSize: '32',
+      fontWeight: 'bold',
+      borderWidth: '3px',
+      borderStyle: 'solid',
+      borderColor: '#FF3399',
+    },
     children: [
       {
         topic: 'What is Minde Elixir',
         id: 'bd4313fbac40284b',
+        style: {
+          border: '3px dotted #44FF66'
+        },
         direction: 0,
         expanded: true,
         children: [
@@ -169,8 +181,7 @@ export default {
         expanded: true,
         children: [
           {
-            topic:
-              'Drag a node to another node\nand the former one will become a child node of latter one',
+            topic: 'Drag a node to another node\nand the former one will become a child node of latter one',
             id: 'bd1f07c598e729dc',
           },
         ],

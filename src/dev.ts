@@ -57,6 +57,11 @@ const options = {
   primaryLinkStyle: 1,
   primaryNodeVerticalGap: 25, // 25
   primaryNodeHorizontalGap: 65, // 65
+  defaultStyle: {
+	color: 'blue',
+	fontSize: '26',
+	fontWeight: 'normal',
+  }
 }
 
 const mind = new (MindElixir as any)(options)

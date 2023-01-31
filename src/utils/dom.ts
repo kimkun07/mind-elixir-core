@@ -24,12 +24,17 @@ export const findEle = (id: string, instance?) => {
 export const shapeTpc = function(tpc: Topic, nodeObj: NodeObj) {
   tpc.textContent = nodeObj.topic
 
-  if (nodeObj.style) {
-    tpc.style.color = nodeObj.style.color || 'inherit'
-    tpc.style.background = nodeObj.style.background || 'inherit'
-    tpc.style.fontSize = nodeObj.style.fontSize + 'px'
-    tpc.style.fontWeight = nodeObj.style.fontWeight || 'normal'
-  }
+  tpc.style.color = nodeObj.style?.color || this.defaultStyle.color
+  tpc.style.background = nodeObj.style?.background || this.defaultStyle.background
+  tpc.style.fontSize = (nodeObj.style?.fontSize || this.defaultStyle.fontSize ) + 'px'
+  tpc.style.fontWeight = nodeObj.style?.fontWeight || this.defaultStyle.fontWeight
+  tpc.style.border = nodeObj.style?.border || this.defaultStyle.border // border 단축 속성을 사용한 경우
+  if (!nodeObj.style?.border) {
+    // border 단축 속성을 사용하지 않는 경우 - default가 적용되어 있을테고, 개별로 변경 가능
+    if (nodeObj.style?.borderWidth) tpc.style.borderWidth = nodeObj.style?.borderWidth
+    if (nodeObj.style?.borderStyle) tpc.style.borderStyle = nodeObj.style?.borderStyle
+    if (nodeObj.style?.borderColor) tpc.style.borderColor = nodeObj.style?.borderColor
+  } 
 
   // TODO allow to add online image
   // if (nodeObj.image) {
@@ -86,7 +91,7 @@ export const createGroup = function(nodeObj: NodeObj, omitChildren?: boolean) {
 export const createTop = function(nodeObj: NodeObj): Top {
   const top = $d.createElement('t')
   const tpc = this.createTopic(nodeObj)
-  shapeTpc(tpc, nodeObj)
+  this.shapeTpc(tpc, nodeObj)
   top.appendChild(tpc)
   return top
 }
@@ -224,7 +229,7 @@ export function layout() {
   this.root.innerHTML = ''
   this.box.innerHTML = ''
   const tpc = this.createTopic(this.nodeData)
-  shapeTpc(tpc, this.nodeData) // shape root tpc
+  this.shapeTpc(tpc, this.nodeData) // shape root tpc
   tpc.draggable = false
   this.root.appendChild(tpc)
 
