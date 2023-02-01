@@ -90,11 +90,11 @@ type operation = {
   name: string
 }
 export interface StyleObj {
-  color?: string
-  background?: string
-  fontSize?: string
-  fontWeight?: string
-  border?: string
+  color?: string // default: 'inherit'
+  background?: string // default: '#F6F6F6'
+  fontSize?: string // default: '15'
+  fontWeight?: string // default: 'normal'
+  border?: string // default: 'none'
   borderWidth?: string
   borderStyle?: string
   borderColor?: string
@@ -208,27 +208,30 @@ const $d = document
 mind.init()
  *
  */
-function MindElixir(this: MindElixirInstance, {
-  el,
-  direction,
-  locale,
-  draggable,
-  editable,
-  contextMenu,
-  contextMenuOption,
-  toolBar,
-  nodeMenu,
-  keypress,
-  before,
-  newTopicName,
-  allowUndo,
-  primaryLinkStyle,
-  overflowHidden,
-  primaryNodeHorizontalGap,
-  primaryNodeVerticalGap,
-  mobileMenu,
-  defaultStyle
-}: Options) {
+function MindElixir(
+  this: MindElixirInstance,
+  {
+    el, // ex: '#map'
+    direction, // ex: MindElixir.SIDE
+    locale, // ex: 'en'
+    draggable, // default: true
+    editable, // default: true
+    contextMenu, // default: true
+    contextMenuOption,
+    toolBar, // default: true
+    nodeMenu, // default: true
+    keypress, // default: true
+    before,
+    newTopicName, // ex: 'new topic'
+    allowUndo, // default: true
+    primaryLinkStyle, // [1 or 2] default 1
+    overflowHidden, // default: false
+    primaryNodeHorizontalGap, // default: 65
+    primaryNodeVerticalGap, // default: 25
+    mobileMenu, // default undefined
+    defaultStyle,
+  }: Options
+) {
   console.log('ME_version ' + MindElixir.version, this)
   let box
   const elType = Object.prototype.toString.call(el)
@@ -256,7 +259,7 @@ function MindElixir(this: MindElixirInstance, {
   this.allowUndo = allowUndo === undefined ? true : allowUndo
   this.defaultStyle = {
     color: defaultStyle?.color || 'inherit',
-    background: defaultStyle?.background || 'inherit',
+    background: defaultStyle?.background || '#F6F6F6',
     fontSize: defaultStyle?.fontSize || '15',
     fontWeight: defaultStyle?.fontWeight || 'normal',
     border: defaultStyle?.border || 'none',
@@ -278,9 +281,7 @@ function MindElixir(this: MindElixirInstance, {
       this.isUndo = false
       return
     }
-    if (['moveNode', 'removeNode', 'addChild', 'finishEdit', 'editStyle', 'editTags', 'editIcons'].includes(
-      operation.name
-    )) {
+    if (['moveNode', 'removeNode', 'addChild', 'finishEdit', 'editStyle', 'editTags', 'editIcons'].includes(operation.name)) {
       this.history.push(operation)
       // console.log(operation, this.history)
     }
@@ -288,15 +289,12 @@ function MindElixir(this: MindElixirInstance, {
 
   this.history = [] // TODO
   this.isUndo = false
-  this.undo = function() {
+  this.undo = function () {
     const operation = this.history.pop()
     if (!operation) return
     this.isUndo = true
     if (operation.name === 'moveNode') {
-      this.moveNode(
-        E(operation.obj.fromObj.id),
-        E(operation.obj.originParentId)
-      )
+      this.moveNode(E(operation.obj.fromObj.id), E(operation.obj.originParentId))
     } else if (operation.name === 'removeNode') {
       if (operation.originSiblingId) {
         this.insertBefore(E(operation.originSiblingId), operation.obj)
