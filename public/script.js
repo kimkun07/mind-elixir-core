@@ -288,7 +288,23 @@ mind.init(MindElixir.new('new topic'))
 update_map(nodeData_sample)
 //#endregion
 
-function onClick() {
-  let input = document.getElementById('input').value
-  document.getElementById('status').textContent = "Very Good"
+function setStatus(text) {
+  document.getElementById('status').textContent = text
+}
+
+async function onClick() {
+  let url = document.getElementById('input').value
+  setStatus('Fetching...')
+  
+  try {
+    let rawResponse = await fetch(url)
+    let treeResponse = await rawResponse.json()
+  
+    setStatus(treeResponse.status)
+    update_map(treeResponse.nodeData)
+  } catch (error) {
+    setStatus('ERROR')
+    console.log(`Try Fetching ${url}`);
+    console.error(error);
+  }
 }
