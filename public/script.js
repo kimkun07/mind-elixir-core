@@ -5,7 +5,7 @@ const mindmap_options = {
   direction: MindElixir.SIDE,
   defaultStyle: {
     color: 'black', // default: 'inherit'
-    background: 'inherit', // default: 'inherit',
+    background: '#F6F6F6', // default: '#F6F6F6',
     fontSize: '20', // default: '15'
     fontWeight: 'normal', // default: 'normal'
     border: 'none', // default: 'none'
@@ -30,7 +30,7 @@ const mindmap_options = {
   nodeMenu: true, // default: true
   keypress: true, // default: true
   mobileMenu: undefined, // default undefined
-  allowUndo: false,
+  allowUndo: false, // default: true
   before: {
     moveDownNode() {
       return false
@@ -277,34 +277,83 @@ const nodeData_sample = {
 
 const mind = new MindElixir(mindmap_options)
 
-function update_map(nodeData) {
+function update_map(rawNodeData) {
+  let nodeData = preprocess(rawNodeData)
   mind.nodeData = nodeData
   mind.linkData = {}
   mind.refresh()
 }
+
+//#region preprocess
+function styleRoot(nodeData) {
+  // 기존 style 존중
+  if (nodeData.style) return
+  nodeData.style = {
+    color: 'white',
+    background: 'CornflowerBlue',
+    fontSize: 36,
+    fontWeight: 'bold',
+  }
+}
+
+function stylePrimary(nodeData) {
+  // 기존 style 존중
+  if (nodeData.style) return
+  nodeData.style = {
+    background: 'white',
+    border: '2px solid black',
+  }
+}
+
+// 받은 nodeData에 (id), root, style 등을 추가
+function preprocess(rawNodeData) {
+  rawNodeData.root = true
+  styleRoot(rawNodeData)
+  for (let primary of rawNodeData.children) {
+    stylePrimary(primary)
+  }
+
+  let nodeData = rawNodeData
+  return nodeData
+}
+//#endregion
 
 //#region initialize map
 mind.init(MindElixir.new('new topic'))
 update_map(nodeData_sample)
 //#endregion
 
+function initFromStorage() {
+  // 저장되어있는 nodeData 사용
+  setStatus('From Storage')
+  // localStorage에 데이터가 없으면 그냥 error 로그 뜨고 끝난다.
+  let rawNodeData = JSON.parse(localStorage.getItem('rawNodeData'))
+  update_map(rawNodeData)
+}
+initFromStorage()
+
 function setStatus(text) {
   document.getElementById('status').textContent = text
 }
 
+// fetch 버튼 클릭
 async function onClick() {
+  // url에 fetch한 json으로 update_map 실행 + localStorage에 저장
   let url = document.getElementById('input').value
   setStatus('Fetching...')
-  
+
   try {
     let rawResponse = await fetch(url)
     let treeResponse = await rawResponse.json()
-  
-    setStatus(treeResponse.status)
-    update_map(treeResponse.nodeData)
+    let { status, rawNodeData } = treeResponse
+
+    localStorage.setItem('rawNodeData', JSON.stringify(rawNodeData))
+
+    setStatus(status)
+    update_map(rawNodeData)
   } catch (error) {
     setStatus('ERROR')
-    console.log(`Try Fetching ${url}`);
-    console.error(error);
+    console.log(`Try Fetching ${url}`)
+    console.error(error)
   }
 }
