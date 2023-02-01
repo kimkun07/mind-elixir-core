@@ -7,13 +7,19 @@
     <title>Mind-Elxiir</title>
   </head>
   <body>
-    Hello HTML
+    <div>
+      <input id="input" style="width:500px" placeholder="url"/>
+      <button onclick="onClick()">Fetch</button>
+      <span style="float:right">Status: <span id="status">Good</span></span>
+    </div>
     <div id="map"></div>
     <style>
       #map {
-        margin-top: 20px;
-        height: 800px;
         width: 100%;
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
       }
     </style>
     <script src="./MindElixir.js"></script>

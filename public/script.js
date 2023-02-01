@@ -283,10 +283,12 @@ function update_map(nodeData) {
   mind.refresh()
 }
 
-
-
-
 //#region initialize map
 mind.init(MindElixir.new('new topic'))
 update_map(nodeData_sample)
 //#endregion
+
+function onClick() {
+  let input = document.getElementById('input').value
+  document.getElementById('status').textContent = "Very Good"
+}
