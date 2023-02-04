@@ -275,8 +275,6 @@ const nodeData_sample = {
   expanded: true,
 }
 
-const mind = new MindElixir(mindmap_options)
-
 function update_map(rawNodeData) {
   let nodeData = preprocess(rawNodeData)
   mind.nodeData = nodeData
@@ -318,20 +316,7 @@ function preprocess(rawNodeData) {
 }
 //#endregion
 
-//#region initialize map
-mind.init(MindElixir.new('new topic'))
-update_map(nodeData_sample)
-//#endregion
-
-function initFromStorage() {
-  // 저장되어있는 nodeData 사용
-  setStatus('From Storage')
-  // localStorage에 데이터가 없으면 그냥 error 로그 뜨고 끝난다.
-  let rawNodeData = JSON.parse(localStorage.getItem('rawNodeData'))
-  update_map(rawNodeData)
-}
-initFromStorage()
-
+//#region UI
 function setStatus(text) {
   document.getElementById('status').textContent = text
 }
@@ -357,3 +342,19 @@ async function onClick() {
     console.error(error)
   }
 }
+//#endregion
+
+const mind = new MindElixir(mindmap_options)
+//#region initialize map
+mind.init(MindElixir.new('new topic'))
+update_map(nodeData_sample)
+//#endregion
+
+function initFromStorage() {
+  // 저장되어있는 nodeData 사용
+  setStatus('From Storage')
+  // localStorage에 데이터가 없으면 그냥 error 로그 뜨고 끝난다.
+  let rawNodeData = JSON.parse(localStorage.getItem('rawNodeData'))
+  update_map(rawNodeData)
+}
+initFromStorage()
