@@ -1,3 +1,6 @@
+import { MindResponse, RawNodeData, NodeStyle } from '@kimkun07/mind-api'
+import MindElixir from './MindElixir'
+
 // index.ts - MindElixir 생성자 참고
 const mindmap_options = {
   el: '#map',
@@ -275,6 +278,7 @@ const nodeData_sample = {
   expanded: true,
 }
 
+// mind를 rawNodeData로 다시 그려준다.
 function update_map(rawNodeData) {
   let nodeData = preprocess(rawNodeData)
   mind.nodeData = nodeData
@@ -318,13 +322,13 @@ function preprocess(rawNodeData) {
 
 //#region UI
 function setStatus(text) {
-  document.getElementById('status').textContent = text
+  document.getElementById('status')!.textContent = text
 }
 
 // fetch 버튼 클릭
 async function onClick() {
   // url에 fetch한 json으로 update_map 실행 + localStorage에 저장
-  let url = document.getElementById('input').value
+  let url = (document.getElementById('input') as HTMLInputElement).value
   setStatus('Fetching...')
 
   try {
@@ -354,7 +358,9 @@ function initFromStorage() {
   // 저장되어있는 nodeData 사용
   setStatus('From Storage')
   // localStorage에 데이터가 없으면 그냥 error 로그 뜨고 끝난다.
-  let rawNodeData = JSON.parse(localStorage.getItem('rawNodeData'))
-  update_map(rawNodeData)
+  if (localStorage.getItem('rawNodeData') != null) {
+    let rawNodeData = JSON.parse(localStorage.getItem('rawNodeData')!)
+    update_map(rawNodeData)
+  } 
 }
 initFromStorage()
