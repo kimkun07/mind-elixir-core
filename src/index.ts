@@ -101,10 +101,10 @@ export interface StyleObj {
 }
 export interface NodeObj {
   topic: string
-  id: string
   style?: StyleObj
-  parent?: NodeObj
   children?: NodeObj[]
+  id?: string // original mind-elixir-core 에서는 not nullable
+  parent?: NodeObj
   tags?: string[]
   icons?: string[] // -> <span>${encodeHTML(icon)}</span>
   hyperLink?: string
