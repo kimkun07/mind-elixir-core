@@ -73,6 +73,8 @@ import Bus from './utils/pubsub'
 import './index.less'
 import './iconfont/iconfont.js'
 
+import { NodeObj, StyleObj } from '../node_modules/@kimkun07/mindmap_mind-api/dist/index'
+export { NodeObj, StyleObj } from '../node_modules/@kimkun07/mindmap_mind-api/dist/index'
 // TODO show up animation
 
 /**
@@ -88,29 +90,6 @@ export const E = findEle
 type LinkObj = object
 type operation = {
   name: string
-}
-export interface StyleObj {
-  color?: string // default: 'inherit'
-  background?: string // default: '#F6F6F6'
-  fontSize?: string // default: '15'
-  fontWeight?: string // default: 'normal'
-  border?: string // default: 'none'
-  borderWidth?: string
-  borderStyle?: string
-  borderColor?: string
-}
-export interface NodeObj {
-  topic: string
-  style?: StyleObj
-  children?: NodeObj[]
-  id?: string // original mind-elixir-core 에서는 not nullable
-  parent?: NodeObj
-  tags?: string[]
-  icons?: string[] // -> <span>${encodeHTML(icon)}</span>
-  hyperLink?: string
-  expanded?: boolean
-  direction?: number
-  root?: boolean
 }
 
 export interface NodeElement extends HTMLElement {
