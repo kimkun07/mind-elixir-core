@@ -1,11 +1,5 @@
 import { LEFT, RIGHT, SIDE } from './const'
-import {
-  isMobile,
-  addParentLink,
-  getObjById,
-  generateUUID,
-  generateNewObj,
-} from './utils/index'
+import { isMobile, addParentLink, getObjById, generateUUID, generateNewObj } from './utils/index'
 import { findEle, createInputDiv, layout, Topic, createChildren, createGroup, createTop, createTopic, shapeTpc } from './utils/dom'
 import { createLinkSvg, createLine } from './utils/svg'
 import {
@@ -51,13 +45,7 @@ import {
   moveNodeBefore,
   moveNodeAfter,
 } from './nodeOperation'
-import {
-  createLink,
-  removeLink,
-  selectLink,
-  hideLinkController,
-  showLinkController,
-} from './customLink'
+import { createLink, removeLink, selectLink, hideLinkController, showLinkController } from './customLink'
 import linkDiv from './linkDiv'
 import initMouseEvent from './mouse'
 
@@ -93,46 +81,46 @@ type operation = {
 }
 
 export interface NodeElement extends HTMLElement {
-  nodeObj:Object
+  nodeObj: NodeObj
 }
 export interface MindElixirData {
-  nodeData: NodeObj,
-  linkData?: LinkObj,
+  nodeData: NodeObj
+  linkData?: LinkObj
   direction?: number
 }
 export interface MindElixirInstance {
-  mindElixirBox: HTMLElement,
-  nodeData: NodeObj,
-  linkData: LinkObj,
-  currentNode: Topic | null,
-  currentLink: SVGElement | null,
-  inputDiv: HTMLElement | null,
-  scaleVal: number,
-  tempDirection: number | null,
-  bus: object, // wip
+  mindElixirBox: HTMLElement
+  nodeData: NodeObj
+  linkData: LinkObj
+  currentNode: Topic | null
+  currentLink: SVGElement | null
+  inputDiv: HTMLElement | null
+  scaleVal: number
+  tempDirection: number | null
+  bus: object // wip
 
   // wip
-  history: operation[],
-  isUndo: boolean,
-  undo: () => void,
+  history: operation[]
+  isUndo: boolean
+  undo: () => void
 
-  direction: number,
-  locale: string,
-  draggable: boolean,
-  editable: boolean,
-  contextMenu: boolean,
-  contextMenuOption: object,
-  toolBar: boolean,
-  nodeMenu: boolean,
-  keypress: boolean,
-  before: object,
-  newTopicName: string,
-  allowUndo: boolean,
-  overflowHidden: boolean,
-  primaryLinkStyle: number,
-  primaryNodeHorizontalGap: number,
-  primaryNodeVerticalGap: number,
-  mobileMenu: boolean,
+  direction: number
+  locale: string
+  draggable: boolean
+  editable: boolean
+  contextMenu: boolean
+  contextMenuOption: object
+  toolBar: boolean
+  nodeMenu: boolean
+  keypress: boolean
+  before: object
+  newTopicName: string
+  allowUndo: boolean
+  overflowHidden: boolean
+  primaryLinkStyle: number
+  primaryNodeHorizontalGap: number
+  primaryNodeVerticalGap: number
+  mobileMenu: boolean
 
   container: HTMLElement,
   map: HTMLElement,
@@ -230,7 +218,6 @@ function MindElixir(
   this.keypress = keypress === undefined ? true : keypress
   this.mobileMenu = mobileMenu
   // record the direction before enter focus mode, must true in focus mode, reset to null after exit focus
-  // todo move direction to data
   this.direction = typeof direction === 'number' ? direction : 1
   this.draggable = draggable === undefined ? true : draggable
   this.newTopicName = newTopicName
@@ -333,12 +320,9 @@ function MindElixir(
   } else initMouseEvent(this)
 }
 
-function beforeHook(fn:(el:any, node?:any)=>void, fnName:string) {
-  return async function(...args:unknown[]) {
-    if (
-      !this.before[fnName] ||
-      (await this.before[fnName].apply(this, args))
-    ) {
+function beforeHook(fn: (el: any, node?: any) => void, fnName: string) {
+  return async function (...args: unknown[]) {
+    if (!this.before[fnName] || (await this.before[fnName].apply(this, args))) {
       fn.apply(this, args)
     }
   }
@@ -405,7 +389,7 @@ MindElixir.prototype = {
   install(plugin) {
     plugin(this)
   },
-  init(data:MindElixirData) {
+  init(data: MindElixirData) {
     if (!data || !data.nodeData) return new Error('MindElixir: `data` is required')
     if (data.direction) {
       this.direction = data.direction

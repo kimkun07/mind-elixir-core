@@ -1,4 +1,5 @@
 export default {
+  direction: 0,
   nodeData: {
     id: 'root',
     topic: 'My Mind Elixir',
@@ -13,6 +14,22 @@ export default {
       borderColor: '#FF3399',
     },
     children: [
+      {
+        topic: 'logo',
+        id: '56dae51a90d350a8',
+        direction: 0,
+        expanded: true,
+        children: [
+          {
+            topic: 'mind-elixir',
+            image: {
+              url: 'https://raw.githubusercontent.com/ssshooter/mind-elixir-core/master/images/logo.png',
+              height: 90,
+              width: 300,
+            },
+          },
+        ],
+      },
       {
         topic: 'What is Minde Elixir',
         id: 'bd4313fbac40284b',
