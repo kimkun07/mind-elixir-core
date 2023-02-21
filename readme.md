@@ -157,6 +157,9 @@ new MindElixir(mindmap_options)
    npm version patch
    npm publish --access public
    ```
+3. (Sync from upstream)\
+   Merge conflicts between `revised` and `upstream`\
+   Check NodeObj, StyleObj matches `mind-api`
 
 ## How to understand
 
